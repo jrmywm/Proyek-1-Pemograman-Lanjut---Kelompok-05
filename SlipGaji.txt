@@ -1,0 +1,36 @@
+======================== Slip Gaji ========================
+Nama Karyawan	  : Casio Watch
+Jabatan		  : Staf
+Gaji Kotor	  : Rp 1500000
+Tunjangan Jabatan : Rp 1500000
+Pajak Dibayar	  : Rp 150000
+Gaji Bersih	  : Rp 2850000
+===========================================================
+
+======================== Slip Gaji ========================
+Nama Karyawan	  : Barrack Obama
+Jabatan		  : Direktur
+Gaji Kotor	  : Rp 70000000
+Tunjangan Jabatan : Rp 10000000
+Pajak Dibayar	  : Rp 19416666
+Gaji Bersih	  : Rp 60583334
+===========================================================
+
+======================== Slip Gaji ========================
+Nama Karyawan	  : Nasi Padang
+Jabatan		  : Manajer
+Gaji Kotor	  : Rp 2000000
+Tunjangan Jabatan : Rp 5000000
+Pajak Dibayar	  : Rp 633333
+Gaji Bersih	  : Rp 6366667
+===========================================================
+
+======================== Slip Gaji ========================
+Nama Karyawan	  : Ayam Rica
+Jabatan		  : Sekretaris
+Gaji Kotor	  : Rp 2500000
+Tunjangan Jabatan : Rp 1700000
+Pajak Dibayar	  : Rp 213333
+Gaji Bersih	  : Rp 3986667
+===========================================================
+
