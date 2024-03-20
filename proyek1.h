@@ -36,7 +36,8 @@ void help(){
     printf("| Untuk memasukkan data karyawan baru, gunakan opsi 1.			  	    |\n");
     printf("| Untuk mencetak slip gaji yang akan dicetak pada file slipGaji.txt, gunakan opsi 2.|\n");
     printf("| Untuk melihat data-data yang sudah ada, gunakan opsi 3.			    |\n");
-    printf("| Untuk mengubah data dari sebuah karyawan, gunakan opsi 4.			    |\n");
+    printf("| Untuk mencari data dari sebuah karyawan, gunakan opsi 4.                          |\n");
+    printf("| Untuk mengubah data dari sebuah karyawan, gunakan opsi 5.			    |\n");
     printf("+-----------------------------------------------------------------------------------+\n\n");
 }
 
