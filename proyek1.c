@@ -1,9 +1,9 @@
 /*
 	Proyek 1 Pemograman Lanjut
-	Sistem Manajemen Gaji Bulanan
-	Version 1.00
+	Sistem Manajemen Gaji Bulanan Karyawan
+	Version 2.00
 
-	Tanggal : Kamis, 21 Maret 2024
+	Tanggal : Rabu, 27 Maret 2024
 
 	Kelompok 6:
 		Jeremy Wijanarko Mulyono	2306267132
@@ -39,6 +39,7 @@ int main(void) {
         printf("\033[1;36m"); // Mengubah warna teks menjadi cyan
         printf("\n===================================\n");
         printf("|  Sistem Manajemen Gaji Bulanan  |\n");
+        printf("|   (silahkan maximize window)    |\n");
         printf("===================================\n");
         printf("\033[0m"); // Reset warna teks
         printf("\033[1;33m"); // Mengubah warna teks menjadi kuning
@@ -90,6 +91,8 @@ int main(void) {
 	                scanf("%d", &pilihan2);
 	                switch(pilihan2){
 	                	case 1:
+	                		system("cls");
+	                		cetakDataKaryawan(karyawan, jumlahKaryawan);
 			                printf("\n=========================================================\n");
 		       				printf("|		Sortir berdasarkan nama  		|\n");
 		        			printf("=========================================================\n");
@@ -118,6 +121,8 @@ int main(void) {
 	                		sortKaryawan(karyawan, jumlahKaryawan, 2, 0);
 	                		break;
 	                	case 3:
+	                		system("cls");
+	                		cetakDataKaryawan(karyawan, jumlahKaryawan);
 			                printf("\n=========================================================\n");
 		       				printf("|		Sortir berdasarkan gaji bersih 		|\n");
 		        			printf("=========================================================\n");
@@ -156,19 +161,28 @@ int main(void) {
 			    printf("\nKetik nama yang ingin dicari, lalu tekan enter untuk berhenti: ");
 			    while (1) {
 			        ch = _getch();
-			
 			        if (ch == '\r') {
 			            printf("\n");
 			            break;
 			        } else if (ch == '\b') {
 			            if (index > 0) {
-			                printf("\b \b");
-			                str[index++] = 0;
-			                str[index] = 0;
-			                str[index--] = 0;
+			            	system("cls");
+			                str[index++] = '\0';
+			                str[index] = '\0';
+			                str[index--] = '\0';
 			                
 			                index--;
+			                searchNama(karyawan, jumlahKaryawan, str);
+			        		printf("\nKetik nama yang ingin dicari, lalu tekan enter untuk berhenti: ");
+			        		printf("%s", str);
 			            }
+			            if(index == 0){
+			            	system("cls");
+			                str[index] = '\0';
+			                searchNama(karyawan, jumlahKaryawan, str);
+			        		printf("\nKetik nama yang ingin dicari, lalu tekan enter untuk berhenti: ");
+			        		printf("%s", str);		            	
+						}
 			        } else {
 			            if (index < sizeof(str) - 1) {
 			                str[index++] = ch;

@@ -61,9 +61,12 @@ void tambahKaryawan(Karyawan karyawan[], int *jumlahKaryawan) {
 		printf("4. Staf\n");
 		printf("Pilih jabatan (masukkan angka 1-4): ");
 		scanf("%d", &karyawanBaru.jabatan);
-	} while (karyawanBaru.jabatan < 1 && karyawanBaru.jabatan > 4);
-    printf("Masukkan gaji pokok	: ");
-    scanf("%ld", &karyawanBaru.gaji);
+	} while (karyawanBaru.jabatan < 1 || karyawanBaru.jabatan > 4);
+	do {
+	    printf("Masukkan gaji pokok	: ");
+	    scanf("%ld", &karyawanBaru.gaji);				
+	} while (karyawanBaru.gaji <0);
+
 
     // Hitung gaji
     karyawanBaru.tunjanganJabatan = tunjanganJabatan(karyawanBaru.jabatan);
@@ -156,18 +159,16 @@ void buatSlipGaji(Karyawan karyawan[], int jumlahKaryawan) {
 void cetakDataKaryawan(Karyawan karyawan[], int jumlahKaryawan) {
     int i;
     printf("\033[1;32m");
-    
-    printf("=====================================================================================================================\n");
-    printf("|%-25s | %-15s | %-15s | %-15s | %-15s | %-13s|\n", 
+    printf("==========================================================================================================================\n");
+    printf("|No.| %-25s | %-15s | %-15s | %-15s | %-15s | %-13s|\n", 
            "Nama", "Gaji Kotor", "Tunjangan Jabatan", "Pajak", "Gaji Bersih", "Jabatan");
-    printf("=====================================================================================================================\n");
+    printf("==========================================================================================================================\n");
     printf("\033[0m"); 
 
     for (i = 0; i < jumlahKaryawan; i++) {
-        printf("|%-25s | Rp %-12.ld | Rp %-14.ld | Rp %-12.ld | Rp %-12.ld | %-13s|\n", 
-            karyawan[i].nama, karyawan[i].gaji, tunjanganJabatan(karyawan[i].jabatan), karyawan[i].pajak, karyawan[i].gajiBersih, jabatanString(karyawan[i].jabatan));
-        printf("+--------------------------+-----------------+-------------------+-----------------+-----------------+--------------+\n");
-
+        printf("| %d | %-25s | Rp %-12.ld | Rp %-14.ld | Rp %-12.ld | Rp %-12.ld | %-13s|\n", 
+            i+1, karyawan[i].nama, karyawan[i].gaji, tunjanganJabatan(karyawan[i].jabatan), karyawan[i].pajak, karyawan[i].gajiBersih, jabatanString(karyawan[i].jabatan));
+        printf("+---+---------------------------+-----------------+-------------------+-----------------+-----------------+--------------+\n");
     }
     printf("\n"); 
 }
@@ -192,11 +193,11 @@ void searchNama(Karyawan karyawan[], int jumlahKaryawan, const char* key) {
 	int i, j;
     int found = 0;
     printf("\033[1;32m");
-	printf("====================================================================================================================\n");
-	printf("%-25s | %-15s | %-15s | %-15s | %-15s | %-13s\n", 
-	       "Nama", "Gaji Kotor", "Tunjangan Jabatan", "Pajak", "Gaji Bersih", "Jabatan");
-	printf("====================================================================================================================\n");
-    printf("\033[0m");     
+    printf("==========================================================================================================================\n");
+    printf("|No.| %-25s | %-15s | %-15s | %-15s | %-15s | %-13s|\n", 
+           "Nama", "Gaji Kotor", "Tunjangan Jabatan", "Pajak", "Gaji Bersih", "Jabatan");
+    printf("==========================================================================================================================\n");
+    printf("\033[0m");      
     for (i = 0; i < jumlahKaryawan; i++) {
         char nameCopy[MAX_PANJANG_NAMA];
         strcpy(nameCopy, karyawan[i].nama);
@@ -210,10 +211,12 @@ void searchNama(Karyawan karyawan[], int jumlahKaryawan, const char* key) {
         for(j = 0; keyCopy[j]; j++){
           keyCopy[j] = tolower(keyCopy[j]);
         }
+        hapusSpasiBelakang(karyawan[i].nama);
 		if (strstr(nameCopy, keyCopy) != NULL) {
-		    printf("%-25s | Rp %-12.ld | Rp %-14.ld | Rp %-12.ld | Rp %-12.ld | %-13s\n", 
-		            karyawan[i].nama, karyawan[i].gaji, tunjanganJabatan(karyawan[i].jabatan), karyawan[i].pajak, karyawan[i].gajiBersih, jabatanString(karyawan[i].jabatan));
-            found = 1;
+	        printf("| %d | %-25s | Rp %-12.ld | Rp %-14.ld | Rp %-12.ld | Rp %-12.ld | %-13s|\n", 
+	            i+1, karyawan[i].nama, karyawan[i].gaji, tunjanganJabatan(karyawan[i].jabatan), karyawan[i].pajak, karyawan[i].gajiBersih, jabatanString(karyawan[i].jabatan));
+	        printf("+---+---------------------------+-----------------+-------------------+-----------------+-----------------+--------------+\n");
+			found = 1;
         }
     }
 
@@ -224,53 +227,37 @@ void searchNama(Karyawan karyawan[], int jumlahKaryawan, const char* key) {
 
 // Function untk mengubah data dari karyawan
 void ubahDataKaryawan(Karyawan karyawan[], int *jumlahKaryawan) {
+	Karyawan hasilSearch[MAX_KARYAWAN];
 	int i, j;
 	int opsi;
     char key[MAX_PANJANG_NAMA];
-    printf("Masukkan nama lengkap karyawan yang ingin diubah: ");
+    printf("Masukkan nama karyawan yang ingin diubah: ");
     scanf(" %[^\n]s", &key);
     hapusSpasiBelakang(key);
     
+    system("cls");
+    searchNama(karyawan, *jumlahKaryawan, key);
+    int index; // Index yang dipilih
     
-    int index = -1;
-    for (i = 0; i < *jumlahKaryawan; i++) {
-    	
-    	char nameCopy[MAX_PANJANG_NAMA];
-        strcpy(nameCopy, karyawan[i].nama);
-        
-    	// Mengubah kedua string menjadi lowercase agar mempermudah perbandingan
-        for(j = 0; nameCopy[j]; j++){
-          nameCopy[j] = tolower(nameCopy[j]);
-        }
-        char keyCopy[strlen(key) + 1];
-        strcpy(keyCopy, key);
-        for(j = 0; keyCopy[j]; j++){
-          keyCopy[j] = tolower(keyCopy[j]);
-        }
-        
-        // Hapus spasi belakang (jika ada) pada setiap nama sebelum membandingkan
-        hapusSpasiBelakang(karyawan[i].nama);
-        if (strcmp(nameCopy, keyCopy) == 0) {
-            index = i;
-            break;
-        }
-    }
+    do{
+		printf("\nMasukkan 0 dan tekan enter untuk kembali ke menu sebelumnya\n");
+	    printf("Pilih index karyawan yang datanya ingin diubah: ");
+		scanf("%d", &index);
+		if(index==0) return;	
+		index--;
+		
+	} while (index > *jumlahKaryawan || index < 0);
+    
 
-    if (index == -1) {
-        printf("Karyawan '%s' tidak ditemukan.\n", key);
-        return;
-    }
-    
+    printf("\nMengubah data dari %s.\n", karyawan[index].nama);
     printf("1. Update data karyawan\n");
 	printf("2. Hapus data karyawan\n");
 	printf("0. Batal, kembali ke menu awal\n");
 	printf("Masukkan opsi yang diinginkan lalu tekan enter: ");
     do{
-		scanf("%d", &opsi);
-	    // Jika karyawan ditemukan, minta data baru
+		scanf("%d", &opsi);		
 	    switch (opsi){
 	    	case 1:
-				printf("Mengubah data untuk %s:\n\n", karyawan[index].nama);
 				printf("Masukkan gaji bulanan baru: ");
 				scanf("%ld", &karyawan[index].gaji);
 				printf("Masukkan jabatan baru (dalam angka): \n");
@@ -289,14 +276,23 @@ void ubahDataKaryawan(Karyawan karyawan[], int *jumlahKaryawan) {
 				printf("Kembali ke menu awal...\n");
 				break;
 			case 2:
-		        for (i = index; i < *jumlahKaryawan - 1; i++) {
-		            karyawan[i] = karyawan[i + 1];
-		        }
-		        (*jumlahKaryawan)--;
-		        printf("Data karyawan '%s' telah dihapus.\n", key);
-		        printf("Kembali ke menu awal...\n");
-		        opsi = 0;
-		        break;
+				printf("Yakin ingin menghapus data? Masukkan 1 untuk iya: ");
+				scanf("%d", &opsi);
+				if(opsi == 1){
+			        for (i = index; i < *jumlahKaryawan - 1; i++) {
+			            karyawan[i] = karyawan[i + 1];
+			        }
+			        (*jumlahKaryawan)--;
+			        printf("Data karyawan '%s' telah dihapus.\n", key);
+			        printf("Kembali ke menu awal...\n");
+			        system("pause");
+			        opsi = 0;
+			        break;					
+				}
+				else {
+					printf("Input bukan 1, kembali ke menu sebelumnya.\n");
+					break;
+				}
 		    case 0:
 		    	printf("Kembali ke menu awal...\n");
 		    	break;
@@ -306,10 +302,6 @@ void ubahDataKaryawan(Karyawan karyawan[], int *jumlahKaryawan) {
 		}    		
 	}
 	while(opsi!=0);
-	
-
-    
-
 }
 
 // Function untuk menerima data dari karyawan untuk dibaca
